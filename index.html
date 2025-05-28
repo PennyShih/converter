@@ -26,12 +26,9 @@
       align-items: center;
     }
     .item img {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
-      margin-right: 5px;
-    }
-    .item label {
       margin-right: 5px;
     }
     .item input {
@@ -43,6 +40,15 @@
       white-space: pre-line;
       font-size: 18px;
     }
+    .result-img {
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    .output-line {
+      margin-bottom: 10px;
+    }
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -53,96 +59,48 @@
 <body>
 
   <h2>素材換算器</h2>
-  <p>請輸入每組素材的 A、B、C 數量：</p>
+  <p>請輸入每組素材的數量：</p>
 
   <div id="inputs">
+    <!-- 各組素材輸入 -->
     <!-- 第 1 組 -->
     <div class="material-block">
       <div class="input-row">
-        <div class="item">
-          <img src="魔獸之爪.jpg" alt="A圖1">
-          <label>A:</label><input id="a1">
-        </div>
-        <div class="item">
-          <img src="獸王之爪.jpg" alt="B圖1">
-          <label>B:</label><input id="b1">
-        </div>
-        <div class="item">
-          <img src="猛禽之爪.jpg" alt="C圖1">
-          <label>C:</label><input id="c1">
-        </div>
+        <div class="item"><img src="魔獸之爪.jpg"><input id="a1"></div>
+        <div class="item"><img src="獸王之爪.jpg"><input id="b1"></div>
+        <div class="item"><img src="猛禽之爪.jpg"><input id="c1"></div>
       </div>
     </div>
-
     <!-- 第 2 組 -->
     <div class="material-block">
       <div class="input-row">
-        <div class="item">
-          <img src="聖樹木材.jpg" alt="A圖2">
-          <label>A:</label><input id="a2">
-        </div>
-        <div class="item">
-          <img src="古樹木材.jpg" alt="B圖2">
-          <label>B:</label><input id="b2">
-        </div>
-        <div class="item">
-          <img src="松樹木材.jpg" alt="C圖2">
-          <label>C:</label><input id="c2">
-        </div>
+        <div class="item"><img src="聖樹木材.jpg"><input id="a2"></div>
+        <div class="item"><img src="古樹木材.jpg"><input id="b2"></div>
+        <div class="item"><img src="松樹木材.jpg"><input id="c2"></div>
       </div>
     </div>
-
     <!-- 第 3 組 -->
     <div class="material-block">
       <div class="input-row">
-        <div class="item">
-          <img src="精靈純露.jpg" alt="A圖3">
-          <label>A:</label><input id="a3">
-        </div>
-        <div class="item">
-          <img src="玫瑰純露.jpg" alt="B圖3">
-          <label>B:</label><input id="b3">
-        </div>
-        <div class="item">
-          <img src="清晨露水.jpg" alt="C圖3">
-          <label>C:</label><input id="c3">
-        </div>
+        <div class="item"><img src="精靈純露.jpg"><input id="a3"></div>
+        <div class="item"><img src="玫瑰純露.jpg"><input id="b3"></div>
+        <div class="item"><img src="清晨露水.jpg"><input id="c3"></div>
       </div>
     </div>
-
     <!-- 第 4 組 -->
     <div class="material-block">
       <div class="input-row">
-        <div class="item">
-          <img src="陽之實.jpg" alt="A圖4">
-          <label>A:</label><input id="a4">
-        </div>
-        <div class="item">
-          <img src="月之實.jpg" alt="B圖4">
-          <label>B:</label><input id="b4">
-        </div>
-        <div class="item">
-          <img src="星之石.jpg" alt="C圖4">
-          <label>C:</label><input id="c4">
-        </div>
+        <div class="item"><img src="陽之實.jpg"><input id="a4"></div>
+        <div class="item"><img src="月之實.jpg"><input id="b4"></div>
+        <div class="item"><img src="星之實.jpg"><input id="c4"></div>
       </div>
     </div>
-
     <!-- 第 5 組 -->
     <div class="material-block">
       <div class="input-row">
-        <div class="item">
-          <img src="混沌之晶簇.jpg" alt="A圖5">
-          <label>A:</label><input id="a5">
-        </div>
-        <div class="item">
-          <img src="夜之晶簇.jpg" alt="B圖5">
-          <label>B:</label><input id="b5">
-        </div>
-        <div class="item">
-          <img src="毒之晶簇.jpg" alt="C圖5">
-          <label>C:</label><input id="c5">
-        </div>
+        <div class="item"><img src="混沌之晶簇.jpg"><input id="a5"></div>
+        <div class="item"><img src="夜之晶簇.jpg"><input id="b5"></div>
+        <div class="item"><img src="毒之晶簇.jpg"><input id="c5"></div>
       </div>
     </div>
   </div>
@@ -156,9 +114,20 @@
       return a + b * 6 + c * 18;
     }
 
+    function getImageName(i) {
+      const names = [
+        "猛禽之爪.jpg",
+        "松樹木材.jpg",
+        "清晨露水.jpg",
+        "星之實.jpg",
+        "毒之晶簇.jpg"
+      ];
+      return names[i - 1];
+    }
+
     function calculate() {
       const output = document.getElementById("output");
-      output.textContent = "";
+      output.innerHTML = "";
 
       let results = {};
 
@@ -175,15 +144,17 @@
         results[i] = toAEquivalent(a, b, c);
       }
 
+      // 顯示每組結果加上圖片
       for (let i = 1; i <= 5; i++) {
-        output.textContent += `${i}: ${results[i]}\n`;
+        output.innerHTML += `<div class="output-line"><img class="result-img" src="${getImageName(i)}">${i}: ${results[i]}</div>`;
       }
 
+      // 排序結果
       const sorted = Object.entries(results)
         .sort((a, b) => b[1] - a[1])
         .map(entry => entry[0]);
 
-      output.textContent += sorted.join(" > ");
+      output.innerHTML += `<div style="margin-top: 10px;">${sorted.join(" > ")}</div>`;
     }
   </script>
 
