@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>素材換算器</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .material-block {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+    }
+    .item img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-right: 5px;
+    }
+    .item label {
+      margin-right: 5px;
+    }
+    .item input {
+      width: 70px;
+      padding: 5px;
+    }
+    .result {
+      margin-top: 20px;
+      white-space: pre-line;
+      font-size: 18px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>素材換算器</h2>
+  <p>請輸入每組素材的 A、B、C 數量：</p>
+
+  <div id="inputs">
+    <!-- 第 1 組 -->
+    <div class="material-block">
+      <div class="input-row">
+        <div class="item">
+          <img src="魔獸之爪.jpg" alt="A圖1">
+          <label>A:</label><input id="a1">
+        </div>
+        <div class="item">
+          <img src="獸王之爪.jpg" alt="B圖1">
+          <label>B:</label><input id="b1">
+        </div>
+        <div class="item">
+          <img src="猛禽之爪.jpg" alt="C圖1">
+          <label>C:</label><input id="c1">
+        </div>
+      </div>
+    </div>
+
+    <!-- 第 2 組 -->
+    <div class="material-block">
+      <div class="input-row">
+        <div class="item">
+          <img src="聖樹木材.jpg" alt="A圖2">
+          <label>A:</label><input id="a2">
+        </div>
+        <div class="item">
+          <img src="古樹木材.jpg" alt="B圖2">
+          <label>B:</label><input id="b2">
+        </div>
+        <div class="item">
+          <img src="松樹木材.jpg" alt="C圖2">
+          <label>C:</label><input id="c2">
+        </div>
+      </div>
+    </div>
+
+    <!-- 第 3 組 -->
+    <div class="material-block">
+      <div class="input-row">
+        <div class="item">
+          <img src="精靈純露.jpg" alt="A圖3">
+          <label>A:</label><input id="a3">
+        </div>
+        <div class="item">
+          <img src="玫瑰純露.jpg" alt="B圖3">
+          <label>B:</label><input id="b3">
+        </div>
+        <div class="item">
+          <img src="清晨露水.jpg" alt="C圖3">
+          <label>C:</label><input id="c3">
+        </div>
+      </div>
+    </div>
+
+    <!-- 第 4 組 -->
+    <div class="material-block">
+      <div class="input-row">
+        <div class="item">
+          <img src="陽之實.jpg" alt="A圖4">
+          <label>A:</label><input id="a4">
+        </div>
+        <div class="item">
+          <img src="月之實.jpg" alt="B圖4">
+          <label>B:</label><input id="b4">
+        </div>
+        <div class="item">
+          <img src="星之石.jpg" alt="C圖4">
+          <label>C:</label><input id="c4">
+        </div>
+      </div>
+    </div>
+
+    <!-- 第 5 組 -->
+    <div class="material-block">
+      <div class="input-row">
+        <div class="item">
+          <img src="混沌之晶簇.jpg" alt="A圖5">
+          <label>A:</label><input id="a5">
+        </div>
+        <div class="item">
+          <img src="夜之晶簇.jpg" alt="B圖5">
+          <label>B:</label><input id="b5">
+        </div>
+        <div class="item">
+          <img src="毒之晶簇.jpg" alt="C圖5">
+          <label>C:</label><input id="c5">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button onclick="calculate()">計算</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function toAEquivalent(a, b, c) {
+      return a + b * 6 + c * 18;
+    }
+
+    function calculate() {
+      const output = document.getElementById("output");
+      output.textContent = "";
+
+      let results = {};
+
+      for (let i = 1; i <= 5; i++) {
+        const a = Number(document.getElementById("a" + i).value);
+        const b = Number(document.getElementById("b" + i).value);
+        const c = Number(document.getElementById("c" + i).value);
+
+        if ([a, b, c].some(isNaN)) {
+          output.textContent = `第 ${i} 組輸入錯誤，請輸入三個整數`;
+          return;
+        }
+
+        results[i] = toAEquivalent(a, b, c);
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        output.textContent += `${i}: ${results[i]}\n`;
+      }
+
+      const sorted = Object.entries(results)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+      output.textContent += sorted.join(" > ");
+    }
+  </script>
+
+</body>
+</html>
